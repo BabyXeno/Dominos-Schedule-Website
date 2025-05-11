@@ -15,6 +15,7 @@ interface DataContextType {
   notifications: Notification[];
   setSwapRequests: React.Dispatch<React.SetStateAction<ShiftSwapRequest[]>>;
   setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
+  getPendingSwapRequests: () => ShiftSwapRequest[];
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -68,6 +69,10 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const getPendingSwapRequests = () => {
+    return swapRequests.filter(request => request.status === ShiftSwapStatus.PENDING);
+  };
+
   const value = {
     requestSwap,
     shifts,
@@ -75,6 +80,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     notifications,
     setSwapRequests,
     setNotifications,
+    getPendingSwapRequests,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
