@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { format } from 'date-fns';
 import { generateId } from '../lib/utils';
-import { Shift, ShiftSwapRequest, ShiftSwapStatus, Notification } from '../types';
+import { ShiftSwapRequest, ShiftSwapStatus, Notification } from '../types';
 
 interface DataContextType {
   requestSwap: (
@@ -10,22 +10,18 @@ interface DataContextType {
     requesteeId: string,
     requesteeShiftId: string | null
   ) => void;
-  shifts: Shift[];
+  shifts: any[];
   swapRequests: ShiftSwapRequest[];
   notifications: Notification[];
-  setShifts: React.Dispatch<React.SetStateAction<Shift[]>>;
   setSwapRequests: React.Dispatch<React.SetStateAction<ShiftSwapRequest[]>>;
   setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
   getPendingSwapRequests: () => ShiftSwapRequest[];
-  addShift: (shiftData: Omit<Shift, 'id'>) => void;
-  updateShift: (shiftId: string, shiftData: Partial<Shift>) => void;
-  deleteShift: (shiftId: string) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
-  const [shifts, setShifts] = useState<Shift[]>([]);
+  const [shifts, setShifts] = useState<any[]>([]);
   const [swapRequests, setSwapRequests] = useState<ShiftSwapRequest[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
@@ -77,36 +73,14 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     return swapRequests.filter(request => request.status === ShiftSwapStatus.PENDING);
   };
 
-  const addShift = (shiftData: Omit<Shift, 'id'>) => {
-    const newShift: Shift = {
-      ...shiftData,
-      id: generateId(),
-    };
-    setShifts(prev => [...prev, newShift]);
-  };
-
-  const updateShift = (shiftId: string, shiftData: Partial<Shift>) => {
-    setShifts(prev => prev.map(shift => 
-      shift.id === shiftId ? { ...shift, ...shiftData } : shift
-    ));
-  };
-
-  const deleteShift = (shiftId: string) => {
-    setShifts(prev => prev.filter(shift => shift.id !== shiftId));
-  };
-
   const value = {
     requestSwap,
     shifts,
     swapRequests,
     notifications,
-    setShifts,
     setSwapRequests,
     setNotifications,
     getPendingSwapRequests,
-    addShift,
-    updateShift,
-    deleteShift,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

@@ -21,7 +21,6 @@ export interface User {
 export interface Shift {
   id: string;
   employeeId: string;
-  employeeName: string;
   storeId: string;
   date: string; // ISO date string
   startTime: string; // 24-hour format HH:MM
