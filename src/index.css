@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    @apply text-dominos-dark;
+  }
+  
+  body {
+    @apply bg-slate-50;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200 
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .btn-primary {
+    @apply bg-dominos-blue text-white hover:bg-dominos-darkblue 
+           focus:ring-dominos-blue;
+  }
+  
+  .btn-secondary {
+    @apply bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 
+           focus:ring-slate-500;
+  }
+  
+  .btn-danger {
+    @apply bg-dominos-red text-white hover:bg-red-700 
+           focus:ring-dominos-red;
+  }
+  
+  .input {
+    @apply w-full px-3 py-2 border border-slate-300 rounded-md 
+           focus:outline-none focus:ring-2 focus:ring-dominos-blue 
+           focus:border-transparent;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 animate-fade-in;
+  }
+  
+  .notification {
+    @apply bg-white border-l-4 p-4 shadow-md rounded-r-md mb-4 animate-slide-in;
+  }
+  
+  .notification-info {
+    @apply border-dominos-blue;
+  }
+  
+  .notification-success {
+    @apply border-status-approved;
+  }
+  
+  .notification-warning {
+    @apply border-status-pending;
+  }
+  
+  .notification-error {
+    @apply border-status-rejected;
+  }
+}
